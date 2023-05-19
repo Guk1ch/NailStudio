@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primary_color">#FFF3B7B2</color>
+    <color name="background_color">#FFFAF1F1</color>
+
+    <color name="purple_main">#FF5D517C</color>
+    <color name="button_back">#FFF3EBFE</color>
+    <color name="check_attention">#FF8247FF</color>
+    <color name="hintGrey">#FF807B8F</color>
+    <color name="additional_color">#FFB2A9EC</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color">@color/purple_main</color>
+</resources>

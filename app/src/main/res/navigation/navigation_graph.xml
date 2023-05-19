@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/registrationFragment">
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/navigation_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_recordsFragment"
+            app:destination="@id/recordsFragment"
+            app:popUpTo="@id/navigation_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_constructorFragment"
+            app:destination="@id/constructorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <fragment
+        android:id="@+id/recordsFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.RecordsFragment"
+        android:label="fragment_records"
+        tools:layout="@layout/fragment_records" >
+        <action
+            android:id="@+id/action_recordsFragment_to_pricingFragment"
+            app:destination="@id/pricingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pricingFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.PricingFragment"
+        android:label="fragment_pricing"
+        tools:layout="@layout/fragment_pricing" />
+    <fragment
+        android:id="@+id/constructorFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.ConstructorFragment"
+        android:label="fragment_constructor"
+        tools:layout="@layout/fragment_constructor" />
+</navigation>

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "977527851393",
+    "project_id": "nailsdesignconstructor",
+    "storage_bucket": "nailsdesignconstructor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977527851393:android:102a9e157c6fed965b4080",
+        "android_client_info": {
+          "package_name": "egorka.artemiyev.naildesignconstructor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977527851393-gc7ebt29pep1moml8keh3gcjb9gc963d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW1x7sAYsrReybcaYr87Mb1oJKvFGuWac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977527851393-gc7ebt29pep1moml8keh3gcjb9gc963d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977527851393:android:1719e77a6d0d8ed05b4080",
+        "android_client_info": {
+          "package_name": "egorka.artemiyev.naildesignconstructor.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977527851393-gc7ebt29pep1moml8keh3gcjb9gc963d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW1x7sAYsrReybcaYr87Mb1oJKvFGuWac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977527851393-gc7ebt29pep1moml8keh3gcjb9gc963d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
