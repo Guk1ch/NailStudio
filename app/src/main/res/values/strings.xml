@@ -10,4 +10,10 @@
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="create_account">Создать аккаунт</string>
+    <string name="Authoris">Авторизация</string>
+    <string name="NoAcount">Нет аккаунта?</string>
+    <string name="Create">Создайте!</string>
+    <string name="Email">E-mail</string>
+    <string name="Forgot_Password">Забыли пароль?</string>
+    <string name="btn_enter">Войти</string>
 </resources>
