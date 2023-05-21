@@ -16,4 +16,5 @@
     <string name="Email">E-mail</string>
     <string name="Forgot_Password">Забыли пароль?</string>
     <string name="btn_enter">Войти</string>
+    <string name="create">Создайте!</string>
 </resources>

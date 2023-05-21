@@ -83,7 +83,7 @@
             android:id="@+id/mailEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="s@tring/e_mail"
+            android:hint="@string/e_mail"
             android:inputType="textEmailAddress"
             android:textColor="@color/check_attention"
             android:textSize="16sp" />
