@@ -17,4 +17,20 @@ class DataManager(private val baseContext: Context) {
     fun isLoginPassed(): Boolean {
         return preferences.getBoolean("isLogin", false)
     }
+
+    fun getUserKey() : String{
+        return preferences.getString("UserKey", "") ?: ""
+    }
+
+    fun setUserKey(key: String){
+        return preferences.edit().putString("UserKey", key).apply()
+    }
+
+    fun isFirstLaunch() : Boolean{
+        return preferences.getBoolean("isFirstLaunch", true)
+    }
+
+    fun endFirstLaunch(){
+        return preferences.edit().putBoolean("isFirstLaunch", false).apply()
+    }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/stroke_image"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="4dp"
+    android:padding="1.5dp">
+    
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="115dp"
+        android:layout_height="225dp"
+        android:layout_gravity="center"
+        android:src="@drawable/gallery_demo"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/imgToFavorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="right"
+        android:layout_margin="12dp"
+        android:src="@drawable/heart_border"/>
+</FrameLayout>

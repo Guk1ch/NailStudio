@@ -12,9 +12,50 @@
     <string name="create_account">Создать аккаунт</string>
     <string name="Authoris">Авторизация</string>
     <string name="NoAcount">Нет аккаунта?</string>
-    <string name="Create">Создайте!</string>
     <string name="Email">E-mail</string>
     <string name="Forgot_Password">Забыли пароль?</string>
     <string name="btn_enter">Войти</string>
     <string name="create">Создайте!</string>
+
+    <string name="master_mail">master@master.ru</string>
+    <string name="master_uid">Te3mgZA3r4P0vigvdHVGRYrbP222</string>
+
+    <string name="favorite">Избранное</string>
+    <string name="make_record">Записаться к мастеру</string>
+    <string name="gallery">Галерея дизайнов</string>
+    <string name="my_designs">Мои дизайны</string>
+    <string name="createDesign">Создать дизайн</string>
+    <string name="gallery_design">Галерея дизайнов</string>
+    <string name="set_price">Установить цену</string>
+    <string name="add_picture">Добавить рисунок</string>
+    <string name="record_list">Список записей</string>
+    <string name="end_record">Запись окончена?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="pricing">Прайсинг</string>
+    <string name="save">Сохранить</string>
+    <string name="back">Назад</string>
+    <string name="manic">Маникюр</string>
+    <string name="pokrit">Покрытие</string>
+    <string name="design">Дизайн</string>
+    <string name="constructor">Конструктор</string>
+    <string name="choose_form">Выбрать форму</string>
+    <string name="choose_length">Выбрать длину</string>
+    <string name="close">Закрыть</string>
+    <string name="form">Форма</string>
+    <string name="no_connection">Нет интернета</string>
+    <string name="designprice">designPrice</string>
+    <string name="nailprice">nailPrice</string>
+    <string name="coatingprice">coatingPrice</string>
+    <string name="phone_number">Номер телефона</string>
+
+    <string name="password_mismatch">Пароли не совпадают</string>
+    <string name="enter_email">Введите свой email</string>
+
+    <string name="enter_your_nickname">Введите своё имя</string>
+    <string name="enter_the_password">Введите пароль</string>
+    <string name="password_must_be_6_symbols_at_least">Пароль должен содержать хотя бы 6 символов</string>
+    <string name="registered_successfully">Регистрация прошла удачно</string>
+    <string name="smth_went_wrong">Что-то пошло не так, проверьте качество соединения.</string>
+    <string name="enter_your_phone">Введите свой номер телефона</string>
 </resources>
