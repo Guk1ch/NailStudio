@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import egorka.artemiyev.naildesignconstructor.R
+import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentGalleryBinding
 import egorka.artemiyev.naildesignconstructor.model.FireImageModel
 import egorka.artemiyev.naildesignconstructor.model.utils.Case
@@ -28,7 +30,6 @@ class GalleryFragment : Fragment() {
     }
 
     private val viewModel: GalleryViewModel by viewModels()
-    private var list = mutableListOf<FireImageModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,8 +43,7 @@ class GalleryFragment : Fragment() {
         setText()
         applyClick()
         checkButtonVisibility()
-        viewModel.fillListFavorite()
-        setObservers()
+        viewModel.getListFull()
         setAdapter()
     }
 
@@ -53,6 +53,7 @@ class GalleryFragment : Fragment() {
                 Case.idListGallery = 3
                 checkButtonVisibility()
                 setText()
+                setAdapter()
             }
             arrowBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -76,24 +77,31 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setAdapter() {
-//        when(Case.idListGallery){
-//            1 ->
-//            2 ->
-//            3 ->
-//        }
+        val adapter: GalleryAdapter
+        when(Case.idListGallery){
+            1 -> {
+                adapter = GalleryAdapter(
+                    requireActivity(),
+                    viewModel.listFull.value!!
+                )
+            }
+            2 -> {
+                adapter = GalleryAdapter(
+                    requireActivity(),
+                    viewModel.listFull.value!!
+                )
+            }
+            else -> {
+                viewModel.getListFavorite()
+                adapter = GalleryAdapter(
+                    requireActivity(),
+                    viewModel.listFavorite.value ?: mutableListOf()
+                )
+            }
+        }
         binding.rvGallery.layoutManager =
             GridLayoutManager(requireContext(), 3, LinearLayoutManager.VERTICAL, false)
-        binding.rvGallery.adapter =
-            GalleryAdapter(
-                requireActivity(),
-                viewModel.listFull.value!!
-            )
-    }
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setObservers(){
-        viewModel.listFavorite.observe(viewLifecycleOwner){
-            list = viewModel.listFavorite.value ?: mutableListOf()
-            binding.rvGallery.adapter?.notifyDataSetChanged()
-        }
+        binding.rvGallery.adapter = adapter
+
     }
 }

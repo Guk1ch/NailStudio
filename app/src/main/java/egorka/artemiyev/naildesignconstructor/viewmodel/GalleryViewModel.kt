@@ -1,8 +1,10 @@
 package egorka.artemiyev.naildesignconstructor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.model.FireImageModel
 
 class GalleryViewModel : ViewModel(){
@@ -10,18 +12,18 @@ class GalleryViewModel : ViewModel(){
     var listFavorite = MutableLiveData<MutableList<FireImageModel>>()
     var listMy = MutableLiveData<List<FireImageModel>>()
 
-    private fun getListFull(){
+    fun getListFull(){
         listFull.value = mutableListOf()
         for (i in 1..20){
-            listFull.value?.add(FireImageModel(i, "", true))
+            listFull.value?.add(FireImageModel(i, ""))
         }
     }
-    fun fillListFavorite() : MutableList<FireImageModel>{
-        getListFull()
-        listFavorite.value = mutableListOf()
-        listFull.value?.forEach { item ->
-            if (item.isInFavorite) listFavorite.value!!.add(item)
-        }
-        return listFavorite.value ?: mutableListOf()
+    fun getListFavorite(){
+        var emptyFavorite = mutableListOf<FireImageModel>()
+        val serializedObject: String = App.dm.getListFavorite()
+        val type = object : TypeToken<List<FireImageModel?>?>() {}.type
+        emptyFavorite = Gson().fromJson(serializedObject, type)
+
+        listFavorite.value = emptyFavorite
     }
 }

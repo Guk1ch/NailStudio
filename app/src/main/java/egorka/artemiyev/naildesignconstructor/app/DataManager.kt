@@ -33,4 +33,18 @@ class DataManager(private val baseContext: Context) {
     fun endFirstLaunch(){
         return preferences.edit().putBoolean("isFirstLaunch", false).apply()
     }
+
+    fun setListFavorite(list: String){
+        return preferences.edit().putString("favoriteList", list).apply()
+    }
+    fun getListFavorite() : String{
+        return preferences.getString("favoriteList", "") ?: ""
+    }
+
+    fun setListMy(list: String){
+        return preferences.edit().putString("myList", list).apply()
+    }
+    fun getListMy() : String{
+        return preferences.getString("myList", "") ?: ""
+    }
 }

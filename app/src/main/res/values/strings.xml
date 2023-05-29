@@ -58,4 +58,8 @@
     <string name="registered_successfully">Регистрация прошла удачно</string>
     <string name="smth_went_wrong">Что-то пошло не так, проверьте качество соединения.</string>
     <string name="enter_your_phone">Введите свой номер телефона</string>
+
+    <string name="do_you_want_to_reset_password_for">Вы хотите сменить пароль для</string>
+    <string name="some_problems_went">Произошли некоторые проблемы</string>
+    <string name="your_email_must_be_correct">Ваш email должен быть корректным</string>
 </resources>

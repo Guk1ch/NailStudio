@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
@@ -40,7 +41,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
             forgotPasswordTxt.setOnClickListener {
-
+                resetEmail()
             }
         }
     }
@@ -91,5 +92,22 @@ class LoginFragment : Fragment() {
 
     private fun makeToast(m: String) {
         Toast.makeText(activity, m, Toast.LENGTH_SHORT).show()
+    }
+    private fun resetEmail() {
+        if (checkEmail(binding.mailEditText.text.toString())) {
+            MaterialDialog(requireActivity())
+                .title(text = getString(R.string.do_you_want_to_reset_password_for))
+                .message(text = binding.mailEditText.text.toString() + " ?")
+                .positiveButton(text = "Yes") {
+                    authFirebase.sendPasswordResetEmail(binding.mailEditText.text.toString())
+                        .addOnCompleteListener {
+                            if (!it.isSuccessful) {
+                                Toast.makeText(activity, getString(R.string.some_problems_went), Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                }
+                .show { }
+        } else Toast.makeText(activity, getString(R.string.your_email_must_be_correct), Toast.LENGTH_SHORT).show()
     }
 }
