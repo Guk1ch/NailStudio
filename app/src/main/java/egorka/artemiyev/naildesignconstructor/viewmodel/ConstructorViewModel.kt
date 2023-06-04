@@ -15,12 +15,12 @@ class ConstructorViewModel : ViewModel() {
         "#F95555",
         "#FF9900",
         "#7000FF",
-        "#B5FFD2",
+        "#B2A9EC",
         "#FFB0C1",
         "#FFE588",
         "#6F57FF",
         "#FF006B",
         "#0A084D",
-        "#00F160",
+        "#00F1A1",
     )
 }

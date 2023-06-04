@@ -11,6 +11,8 @@ import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentSplashBinding
 import egorka.artemiyev.naildesignconstructor.model.FireImageModel
+import egorka.artemiyev.naildesignconstructor.model.MasterWorkList
+import egorka.artemiyev.naildesignconstructor.model.MyDesign
 
 
 class SplashFragment : Fragment() {
@@ -28,7 +30,8 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (App.dm.isFirstLaunch()) {
-            App.dm.setListFavorite(Gson().toJson(mutableListOf<FireImageModel>()))
+            App.dm.setListFavorite(Gson().toJson(MasterWorkList()))
+            App.dm.addListMy(Gson().toJson(mutableListOf<MyDesign>()))
             findNavController().navigate(R.id.action_splashFragment_to_registrationFragment)
         }
         else if (App.dm.isLoginPassed() && getString(R.string.master_uid) == App.dm.getUserKey()) findNavController().navigate(R.id.action_splashFragment_to_recordsFragment)

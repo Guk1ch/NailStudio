@@ -71,12 +71,19 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/navigation_graph"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_mainFragment_to_myDesignsFragment"
+            app:destination="@id/myDesignsFragment" />
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
         android:name="egorka.artemiyev.naildesignconstructor.view.fragments.GalleryFragment"
         android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_imageFragment"
+            app:destination="@id/imageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recordsFragment"
         android:name="egorka.artemiyev.naildesignconstructor.view.fragments.RecordsFragment"
@@ -101,4 +108,14 @@
         android:name="egorka.artemiyev.naildesignconstructor.view.fragments.ConstructorFragment"
         android:label="fragment_constructor"
         tools:layout="@layout/fragment_constructor" />
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image" />
+    <fragment
+        android:id="@+id/myDesignsFragment"
+        android:name="egorka.artemiyev.naildesignconstructor.view.fragments.MyDesignsFragment"
+        android:label="fragment_my_designs"
+        tools:layout="@layout/fragment_my_designs" />
 </navigation>

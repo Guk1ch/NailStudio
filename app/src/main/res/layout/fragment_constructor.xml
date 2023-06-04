@@ -42,6 +42,7 @@
         android:id="@+id/rvColors"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintTop_toTopOf="@+id/guideline17" />
 
@@ -160,8 +161,9 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/bitmapLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toStartOf="@+id/nextButton"
         app:layout_constraintStart_toEndOf="@+id/prevButton"
@@ -171,7 +173,9 @@
             android:id="@+id/image_form"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
+            app:tint="@color/additional_color"
+            android:src="@drawable/short_second_elepse"
             app:layout_constraintBottom_toBottomOf="@+id/vpNails"
             app:layout_constraintEnd_toEndOf="@+id/vpNails"
             app:layout_constraintStart_toStartOf="@+id/vpNails"
@@ -179,8 +183,8 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpNails"
-            android:layout_width="96dp"
-            android:layout_height="128dp"
+            android:layout_width="128dp"
+            android:layout_height="164dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

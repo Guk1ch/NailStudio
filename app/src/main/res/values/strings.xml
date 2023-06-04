@@ -62,4 +62,9 @@
     <string name="do_you_want_to_reset_password_for">Вы хотите сменить пароль для</string>
     <string name="some_problems_went">Произошли некоторые проблемы</string>
     <string name="your_email_must_be_correct">Ваш email должен быть корректным</string>
+    <string name="base_price">1000</string>
+    <string name="please_set_price">Установите цену</string>
+    <string name="ok">OK</string>
+    <string name="do_you_want_to_delete_design">Хотите ли вы удалить дизайн?</string>
+    <string name="design_will_be_deleted_forever">Дизайн будет удалён безвозвратно</string>
 </resources>

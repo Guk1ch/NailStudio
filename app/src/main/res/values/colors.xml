@@ -10,7 +10,7 @@
     <color name="button_back">#FFF3EBFE</color>
     <color name="check_attention">#FF8247FF</color>
     <color name="hintGrey">#FF807B8F</color>
-    <color name="additional_color">#FFB2A9EC</color>
+    <color name="additional_color">#B2A9EC</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">@color/purple_main</color>
 </resources>

@@ -9,12 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentRegistrationBinding
+import egorka.artemiyev.naildesignconstructor.model.Record
+import egorka.artemiyev.naildesignconstructor.model.SqlClient
+import egorka.artemiyev.naildesignconstructor.model.SqlClientRegistration
+import egorka.artemiyev.naildesignconstructor.viewmodel.RegistrationViewModel
 
 class RegistrationFragment : Fragment() {
 
@@ -24,7 +29,7 @@ class RegistrationFragment : Fragment() {
         )
     }
     private var authFirebase: FirebaseAuth = FirebaseAuth.getInstance()
-
+    private val registrationViewModel: RegistrationViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,6 +83,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun registration() {
+        val sqlUser = SqlClientRegistration(0, "", "", "")
         val mail = binding.mailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
 
@@ -85,9 +91,12 @@ class RegistrationFragment : Fragment() {
             authFirebase.createUserWithEmailAndPassword(mail, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        Log.d(ContentValues.TAG, "createUserWithEmail:success")
                         val user = authFirebase.currentUser
                         updateUI(user)
+                        sqlUser.fullName = binding.fioEditText.text.toString()
+                        sqlUser.phone = binding.phoneEditText.text.toString()
+                        sqlUser.userKey = user?.uid ?: ""
+                        registrationViewModel.createSqlUser(sqlUser)
                         findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                     } else {
                         Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)

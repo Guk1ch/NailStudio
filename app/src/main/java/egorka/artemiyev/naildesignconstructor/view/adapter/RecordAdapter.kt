@@ -24,7 +24,7 @@ class RecordAdapter(val context: Context, val list: List<RecordModel>) : Recycle
             root.setOnLongClickListener {
                 val dialog = MaterialDialog(context as MainActivity)
                     .title(text = context.getString(R.string.end_record))
-                    .message(text = nameTxt.text.toString() + " опущен?")
+                    .message(text = "Запись для ${nameTxt.text} проведена?")
                     .positiveButton(text = context.getString(R.string.yes)) {
                         it.cancel()
                     }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import egorka.artemiyev.naildesignconstructor.databinding.ColorViewBinding
 import egorka.artemiyev.naildesignconstructor.view.activities.MainActivity
 
-class ColorAdapter(val context: Context, private val list: List<String>) : RecyclerView.Adapter<ColorAdapter.ColorHolder>() {
+class ColorAdapter(val context: Context, private val list: List<String>, private val colorClick: ColorClick) : RecyclerView.Adapter<ColorAdapter.ColorHolder>() {
     private lateinit var display: Display
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorHolder {
@@ -31,10 +31,16 @@ class ColorAdapter(val context: Context, private val list: List<String>) : Recyc
         card.layoutParams.height = (width / 6)
         card.setCardBackgroundColor(Color.parseColor(list[position]))
 
-        card.setOnClickListener { Toast.makeText(context, list[position], Toast.LENGTH_SHORT).show() }
+        card.setOnClickListener {
+            colorClick.click(Color.parseColor(list[position]))
+        }
     }
 
     override fun getItemCount(): Int = 18
+
+    interface ColorClick{
+        fun click(color: Int)
+    }
 
     class ColorHolder(val binding: ColorViewBinding) : ViewHolder(binding.root)
 }

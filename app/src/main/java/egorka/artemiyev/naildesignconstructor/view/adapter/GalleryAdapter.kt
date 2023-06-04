@@ -1,25 +1,35 @@
 package egorka.artemiyev.naildesignconstructor.view.adapter
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.afollestad.materialdialogs.MaterialDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.GalleryViewBinding
-import egorka.artemiyev.naildesignconstructor.model.FireImageModel
+import egorka.artemiyev.naildesignconstructor.model.MasterWork
+import egorka.artemiyev.naildesignconstructor.model.MasterWorkList
 import egorka.artemiyev.naildesignconstructor.model.utils.Case
 import egorka.artemiyev.naildesignconstructor.view.activities.MainActivity
-import java.lang.reflect.Type
 
 
-class GalleryAdapter(val context: Context, private val list: MutableList<FireImageModel>) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+class GalleryAdapter(val context: Context, private val list: MasterWorkList, private val longClick: LongClick) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
     private lateinit var display: Display
     private val listFavorite = getListFavorite()
 
@@ -36,7 +46,21 @@ class GalleryAdapter(val context: Context, private val list: MutableList<FireIma
 
 
         with(holder.binding){
-            if (Case.idListGallery == 2) imgToFavorite.visibility = View.GONE
+            Glide.with(img)
+                .load(item.image)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        imgNotSupported.visibility = View.VISIBLE
+                        progressGallery.visibility = View.GONE
+                        return false
+                    }
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        progressGallery.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(img)
+
             img.layoutParams.width = (width / 3)
             var isInFavorite = checkContains(item, listFavorite)
             imgToFavorite.setImageResource(if (isInFavorite) R.drawable.heart_full else R.drawable.heart_border)
@@ -52,6 +76,10 @@ class GalleryAdapter(val context: Context, private val list: MutableList<FireIma
                 isInFavorite = !isInFavorite
                 App.dm.setListFavorite(Gson().toJson(listFavorite))
             }
+            img.setOnLongClickListener {
+                longClick.onLongClick(item)
+                true
+            }
         }
     }
 
@@ -59,15 +87,13 @@ class GalleryAdapter(val context: Context, private val list: MutableList<FireIma
 
     class GalleryViewHolder(val binding: GalleryViewBinding) : ViewHolder(binding.root)
 
-    private fun checkContains(item: FireImageModel, list: MutableList<FireImageModel>) : Boolean{
+    private fun checkContains(item: MasterWork, list: MasterWorkList) : Boolean{
         return list.contains(item)
     }
-    private fun getListFavorite() : MutableList<FireImageModel>{
-        var emptyFavorite = mutableListOf<FireImageModel>()
-        val serializedObject: String = App.dm.getListFavorite()
-        val type = object : TypeToken<List<FireImageModel?>?>() {}.type
-        emptyFavorite = Gson().fromJson(serializedObject, type)
-
-        return emptyFavorite
+    private fun getListFavorite() : MasterWorkList{
+        return App.dm.getListFavorite()
+    }
+    interface LongClick{
+        fun onLongClick(data: MasterWork)
     }
 }

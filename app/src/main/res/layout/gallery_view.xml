@@ -6,14 +6,27 @@
     android:layout_marginBottom="8dp"
     android:layout_marginHorizontal="4dp"
     android:padding="1.5dp">
+
+    <ProgressBar
+        android:id="@+id/progressGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     
     <ImageView
         android:id="@+id/img"
         android:layout_width="115dp"
         android:layout_height="225dp"
         android:layout_gravity="center"
-        android:src="@drawable/gallery_demo"
         android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/imgNotSupported"
+        android:layout_width="115dp"
+        android:layout_height="225dp"
+        android:visibility="gone"
+        android:src="@drawable/baseline_image_not_supported_24"
+        android:layout_gravity="center" />
 
     <ImageView
         android:id="@+id/imgToFavorite"

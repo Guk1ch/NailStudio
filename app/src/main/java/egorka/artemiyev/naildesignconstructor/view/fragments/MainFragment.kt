@@ -12,10 +12,12 @@ import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentMainBinding
 import egorka.artemiyev.naildesignconstructor.model.utils.Case.idListGallery
 import egorka.artemiyev.naildesignconstructor.view.adapter.DemoListAdapter
+import egorka.artemiyev.naildesignconstructor.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
     private val binding: FragmentMainBinding by lazy { FragmentMainBinding.inflate(layoutInflater) }
+    private val mainViewModel = MainViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +30,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         applyClick()
-        setAdapter()
+        mainViewModel.getListFull()
+        setObservers()
     }
 
     private fun applyClick(){
@@ -38,7 +41,7 @@ class MainFragment : Fragment() {
                 openGallery(1)
             }
             myDesignButton.setOnClickListener {
-                openGallery(2)
+                findNavController().navigate(R.id.action_mainFragment_to_myDesignsFragment)
             }
             createDesignButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_constructorFragment)
@@ -60,6 +63,11 @@ class MainFragment : Fragment() {
 
     private fun setAdapter(){
         binding.rvNailDemo.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-        binding.rvNailDemo.adapter = DemoListAdapter(requireContext(), listOf())
+        binding.rvNailDemo.adapter = DemoListAdapter(requireContext(), mainViewModel.listFull.value!!)
+    }
+    private fun setObservers() {
+        mainViewModel.isRequestComplete.observe(viewLifecycleOwner) {
+            setAdapter()
+        }
     }
 }

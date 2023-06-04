@@ -1,6 +1,4 @@
 package egorka.artemiyev.naildesignconstructor.view.fragments
-
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,23 +8,30 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentGalleryBinding
 import egorka.artemiyev.naildesignconstructor.model.FireImageModel
+import egorka.artemiyev.naildesignconstructor.model.MasterWork
+import egorka.artemiyev.naildesignconstructor.model.MasterWorkList
 import egorka.artemiyev.naildesignconstructor.model.utils.Case
+import egorka.artemiyev.naildesignconstructor.model.utils.Case.item
 import egorka.artemiyev.naildesignconstructor.view.adapter.GalleryAdapter
+import egorka.artemiyev.naildesignconstructor.view.adapter.MyListAdapter
 import egorka.artemiyev.naildesignconstructor.viewmodel.GalleryViewModel
 
 
-class GalleryFragment : Fragment() {
+class GalleryFragment : Fragment(), GalleryAdapter.LongClick {
 
     private val binding: FragmentGalleryBinding by lazy {
         FragmentGalleryBinding.inflate(
             layoutInflater
         )
+    }
+
+    override fun onLongClick(data: MasterWork) {
+        item = data
+        findNavController().navigate(R.id.action_galleryFragment_to_imageFragment)
     }
 
     private val viewModel: GalleryViewModel by viewModels()
@@ -41,19 +46,18 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setText()
+        setObservers()
         applyClick()
-        checkButtonVisibility()
         viewModel.getListFull()
-        setAdapter()
     }
 
     private fun applyClick() {
         with(binding) {
             favoriteImageView.setOnClickListener {
                 Case.idListGallery = 3
-                checkButtonVisibility()
                 setText()
                 setAdapter()
+                binding.imgNotSupported.visibility = View.GONE
             }
             arrowBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -71,37 +75,35 @@ class GalleryFragment : Fragment() {
         binding.titleText.text = title
     }
 
-    private fun checkButtonVisibility() {
-        binding.favoriteImageView.visibility =
-            if (Case.idListGallery == 3) View.GONE else View.VISIBLE
-    }
-
     private fun setAdapter() {
         val adapter: GalleryAdapter
-        when(Case.idListGallery){
+        when (Case.idListGallery) {
             1 -> {
                 adapter = GalleryAdapter(
                     requireActivity(),
-                    viewModel.listFull.value!!
+                    viewModel.listFull.value!!,
+                    this
                 )
             }
-            2 -> {
-                adapter = GalleryAdapter(
-                    requireActivity(),
-                    viewModel.listFull.value!!
-                )
-            }
+
             else -> {
                 viewModel.getListFavorite()
                 adapter = GalleryAdapter(
                     requireActivity(),
-                    viewModel.listFavorite.value ?: mutableListOf()
+                    viewModel.listFavorite.value ?: MasterWorkList(),
+                    this
                 )
             }
         }
         binding.rvGallery.layoutManager =
             GridLayoutManager(requireContext(), 3, LinearLayoutManager.VERTICAL, false)
         binding.rvGallery.adapter = adapter
+    }
 
+    private fun setObservers() {
+        viewModel.isRequestComplete.observe(viewLifecycleOwner) {
+            setAdapter()
+            binding.imgNotSupported.visibility = View.GONE
+        }
     }
 }
