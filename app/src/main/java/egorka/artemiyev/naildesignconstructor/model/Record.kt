@@ -1,10 +1,11 @@
 package egorka.artemiyev.naildesignconstructor.model
 
 data class Record(
-    val cost: Int,
-    val id: Int,
-    val idClient: Int,
-    val idClientNavigation: Any,
-    val isDone: Boolean,
-    val time: String
+    var cost: Int,
+    var id: Int,
+    var idClient: Int,
+    var date: String,
+    var idClientNavigation: SqlClient? = null,
+    var isDone: Boolean,
+    var time: String
 )

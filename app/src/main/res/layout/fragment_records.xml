@@ -61,7 +61,7 @@
             android:layout_margin="10dp"
             android:text="@string/add_picture"
             android:textColor="@color/purple_main"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>

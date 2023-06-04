@@ -3,10 +3,12 @@ package egorka.artemiyev.naildesignconstructor.model.utils
 import android.graphics.drawable.Drawable
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.model.MasterWork
+import egorka.artemiyev.naildesignconstructor.model.SqlClient
 
 object Case {
     var idListGallery = 1  //1 - Галлерея, 2 - Мои Дизайны, 3 - Избранное
     lateinit var item: MasterWork
+    var listClients = arrayListOf<SqlClient>()
     val mapNails = mapOf(
         Pair(NailForm.ALMOND, NailLength.LONG) to R.drawable.third_long_nut,
         Pair(NailForm.ALMOND, NailLength.MIDDLE) to R.drawable.third_middle_nut,

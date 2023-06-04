@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NailDesignConstructor</string>
+    <string name="app_name">NailConstructor</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registration">Регистрация</string>
@@ -67,4 +67,10 @@
     <string name="ok">OK</string>
     <string name="do_you_want_to_delete_design">Хотите ли вы удалить дизайн?</string>
     <string name="design_will_be_deleted_forever">Дизайн будет удалён безвозвратно</string>
+    <string name="form_is_not_exist">Такой формы нет, пожалуйста выберите другие параметны</string>
+    <string name="enter_time">Введите дату и время</string>
+    <string name="_1">Запись должна быть сделана минимум за 1 день</string>
+    <string name="enter_date_format">Дата или время имеет неверный формат</string>
+    <string name="_8_00_19_00">Время не может быть меньше 8:00 или больше 19:00</string>
+    <string name="success">Успешно!</string>
 </resources>

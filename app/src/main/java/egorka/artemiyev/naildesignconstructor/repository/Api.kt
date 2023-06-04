@@ -5,6 +5,8 @@ import egorka.artemiyev.naildesignconstructor.model.ListClients
 import egorka.artemiyev.naildesignconstructor.model.MasterWork
 import egorka.artemiyev.naildesignconstructor.model.MasterWorkList
 import egorka.artemiyev.naildesignconstructor.model.NailImage
+import egorka.artemiyev.naildesignconstructor.model.Record
+import egorka.artemiyev.naildesignconstructor.model.RecordsList
 import egorka.artemiyev.naildesignconstructor.model.SqlClient
 import egorka.artemiyev.naildesignconstructor.model.SqlClientRegistration
 import io.reactivex.Observable
@@ -14,6 +16,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -29,9 +32,18 @@ interface Api {
 
     @GET("Nails")
     fun getNailImages() : Observable<NailImage>
-
+    @GET("Clients")
+    fun getUsers() : Observable<ListClients>
     @POST("Clients")
     fun createUser(@Body client: SqlClientRegistration, @Header("UserKey") userKey: String = "magnatjdimenya") : Observable<SqlClient>
+
+    @POST("Records")
+    fun addRecord(@Body record: Record) : Observable<Record>
+
+    @POST("Records/DeleteRecord")
+    fun deleteRecord(@Body record: Record) : Observable<Record>
+    @GET("Records")
+    fun getRecords() : Observable<RecordsList>
 
     companion object{
         fun createApi() : Api{

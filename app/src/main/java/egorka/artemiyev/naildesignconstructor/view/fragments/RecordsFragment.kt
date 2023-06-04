@@ -14,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.storage.FirebaseStorage
@@ -23,11 +25,18 @@ import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentRecordsBinding
 import egorka.artemiyev.naildesignconstructor.databinding.PriceDialogBinding
 import egorka.artemiyev.naildesignconstructor.model.MasterWork
+import egorka.artemiyev.naildesignconstructor.model.Record
+import egorka.artemiyev.naildesignconstructor.model.RecordsList
 import egorka.artemiyev.naildesignconstructor.view.adapter.RecordAdapter
+import egorka.artemiyev.naildesignconstructor.viewmodel.RecordsViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-class RecordsFragment : Fragment() {
+class RecordsFragment : Fragment(), RecordAdapter.OnClick {
 
     private val binding: FragmentRecordsBinding by lazy {
         FragmentRecordsBinding.inflate(
@@ -35,6 +44,20 @@ class RecordsFragment : Fragment() {
         )
     }
     private val storageRef = FirebaseStorage.getInstance().reference
+    private val viewModel: RecordsViewModel by viewModels()
+
+    override fun click(data: Record, position: Int) {
+        val disp = App.dm.api.deleteRecord(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+            }, {
+                viewModel.trueList.remove(data)
+                binding.rvRecords.adapter!!.notifyItemRemoved(position)
+            })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,8 +68,9 @@ class RecordsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getListRecords()
+        setObservers()
         applyClick()
-        setAdapter()
     }
 
     private fun applyClick() {
@@ -79,8 +103,9 @@ class RecordsFragment : Fragment() {
                             (dialogBinding.priceTxtView.text.toString().toInt() - 100).toString()
                     }
 
-                    dialogBinding.imgIncrease.setOnClickListener { dialogBinding.priceTxtView.text =
-                        (dialogBinding.priceTxtView.text.toString().toInt() + 100).toString()
+                    dialogBinding.imgIncrease.setOnClickListener {
+                        dialogBinding.priceTxtView.text =
+                            (dialogBinding.priceTxtView.text.toString().toInt() + 100).toString()
                     }
                 }
                 dialog.show()
@@ -95,7 +120,12 @@ class RecordsFragment : Fragment() {
 
     private fun setAdapter() {
         binding.rvRecords.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvRecords.adapter = RecordAdapter(requireActivity(), listOf())
+        lifecycleScope.launch {
+            delay(400)
+            binding.rvRecords.adapter = RecordAdapter(
+                requireActivity(),
+                viewModel.trueList, this@RecordsFragment)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -123,6 +153,13 @@ class RecordsFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setObservers() {
+        viewModel.isListDone.observe(viewLifecycleOwner) {
+            if (it)
+                setAdapter()
         }
     }
 }

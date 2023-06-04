@@ -15,6 +15,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import egorka.artemiyev.naildesignconstructor.R
@@ -22,6 +25,9 @@ import egorka.artemiyev.naildesignconstructor.app.App
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentConstructorBinding
 import egorka.artemiyev.naildesignconstructor.model.MyDesign
 import egorka.artemiyev.naildesignconstructor.model.NailImage
+import egorka.artemiyev.naildesignconstructor.model.utils.Case.mapNails
+import egorka.artemiyev.naildesignconstructor.model.utils.NailForm
+import egorka.artemiyev.naildesignconstructor.model.utils.NailLength
 import egorka.artemiyev.naildesignconstructor.view.adapter.ColorAdapter
 import egorka.artemiyev.naildesignconstructor.view.adapter.NailImageAdapter
 import egorka.artemiyev.naildesignconstructor.viewmodel.ConstructorViewModel
@@ -39,7 +45,10 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
     private val firebaseRealtime = FirebaseDatabase.getInstance().reference
     private var vpList = NailImage()
     private var imageTint: Int = Color.parseColor("#B2A9EC")
-    private var formNail: Int = R.drawable.short_second_elepse
+    private var formNail: Int = R.drawable.second_long_knife
+
+    private var nailForm = NailForm.KNIFE
+    private var nailLength = NailLength.LONG
 
     private val binding: FragmentConstructorBinding by lazy {
         FragmentConstructorBinding.inflate(
@@ -64,15 +73,19 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
     private fun applyClick() {
         with(binding) {
             arrowBack.setOnClickListener { findNavController().popBackStack() }
-            chooseFormButton.setOnClickListener { }
-            chooseLengthButton.setOnClickListener { }
+            chooseFormButton.setOnClickListener {
+                showDialogChooseForm(requireContext().getString(R.string.choose_form))
+            }
+            chooseLengthButton.setOnClickListener {
+                showDialogChooseLength(requireContext().getString(R.string.choose_form))
+            }
 
             prevButton.setOnClickListener {
-                if (vpNails.currentItem == 0) vpNails.currentItem = (vpList.size-1)
+                if (vpNails.currentItem == 0) vpNails.currentItem = (vpList.size - 1)
                 else vpNails.currentItem--
             }
             nextButton.setOnClickListener {
-                if (vpNails.currentItem == (vpList.size-1)) vpNails.currentItem = 0
+                if (vpNails.currentItem == (vpList.size - 1)) vpNails.currentItem = 0
                 else vpNails.currentItem++
             }
 
@@ -140,7 +153,74 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
             })
     }
 
-    private fun checkViewPagerItems(): Boolean {
-        return binding.vpNails.size != 0
+    private fun showDialogChooseForm(title: String) {
+        val singleItems = arrayOf(
+            "Миндаль",
+            "Прямоугольник",
+            "Эллипс",
+            "Балерина",
+            "Стилет"
+        )
+        val checkedItem = when (nailForm) {
+            NailForm.ALMOND -> 0
+            NailForm.RECTANGLE -> 1
+            NailForm.ELLIPSE -> 2
+            NailForm.BALLERINA -> 3
+            else -> 4
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                dialog.cancel()
+            }
+            .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+                nailForm = when (which) {
+                    0 -> NailForm.ALMOND
+                    1 -> NailForm.RECTANGLE
+                    2 -> NailForm.ELLIPSE
+                    3 -> NailForm.BALLERINA
+                    else -> NailForm.KNIFE
+                }
+                setFormImage()
+            }
+            .show()
+    }
+
+    private fun showDialogChooseLength(title: String) {
+        val singleItems = arrayOf("Короткая", "Средняя", "Длинная")
+        val checkedItem = when (nailLength) {
+            NailLength.SHORT -> 0
+            NailLength.MIDDLE -> 1
+            else -> 2
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                dialog.cancel()
+            }
+            .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+                nailLength = when (which) {
+                    0 -> NailLength.SHORT
+                    1 -> NailLength.MIDDLE
+                    else -> NailLength.LONG
+                }
+                setFormImage()
+            }
+            .show()
+    }
+    private fun setFormImage(){
+        val key = Pair(nailForm, nailLength)
+
+        if (mapNails.containsKey(key)){
+            formNail = mapNails[key] ?: formNail
+            Glide.with(binding.imageForm)
+                .load(formNail)
+                .into(binding.imageForm)
+        }
+        else {
+            Toast.makeText(requireContext(), getString(R.string.form_is_not_exist), Toast.LENGTH_SHORT).show()
+        }
     }
 }
