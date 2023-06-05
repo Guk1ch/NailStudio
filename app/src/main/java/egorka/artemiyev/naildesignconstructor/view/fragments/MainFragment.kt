@@ -54,7 +54,6 @@ class MainFragment : Fragment() {
                     )
                 }
                 Dialog(requireContext()).apply {
-                    setCancelable(false)
                     setContentView(dialogBinding.root)
                     window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
