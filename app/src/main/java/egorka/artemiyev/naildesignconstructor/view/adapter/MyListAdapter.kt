@@ -1,6 +1,7 @@
 package egorka.artemiyev.naildesignconstructor.view.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,7 @@ class MyListAdapter(
             .load(list[position].form)
             .into(holder.binding.imgNail)
         holder.binding.imgNail.setColorFilter(list[position].tint)
+        holder.binding.imagePicture.setColorFilter(Color.parseColor(list[position].pictureTint))
 
         holder.binding.root.setOnLongClickListener {
             MaterialDialog(context).apply {

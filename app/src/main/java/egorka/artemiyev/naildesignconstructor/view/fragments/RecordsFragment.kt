@@ -1,5 +1,6 @@
 package egorka.artemiyev.naildesignconstructor.view.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
@@ -22,21 +23,30 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import egorka.artemiyev.naildesignconstructor.R
 import egorka.artemiyev.naildesignconstructor.app.App
+import egorka.artemiyev.naildesignconstructor.databinding.ClientRecordBinding
 import egorka.artemiyev.naildesignconstructor.databinding.FragmentRecordsBinding
+import egorka.artemiyev.naildesignconstructor.databinding.InputDateDialogViewBinding
+import egorka.artemiyev.naildesignconstructor.databinding.ListClientsDialogBinding
 import egorka.artemiyev.naildesignconstructor.databinding.PriceDialogBinding
+import egorka.artemiyev.naildesignconstructor.model.ListClients
 import egorka.artemiyev.naildesignconstructor.model.MasterWork
 import egorka.artemiyev.naildesignconstructor.model.Record
 import egorka.artemiyev.naildesignconstructor.model.RecordsList
+import egorka.artemiyev.naildesignconstructor.model.utils.Case
+import egorka.artemiyev.naildesignconstructor.view.adapter.ClientTextAdapter
 import egorka.artemiyev.naildesignconstructor.view.adapter.RecordAdapter
 import egorka.artemiyev.naildesignconstructor.viewmodel.RecordsViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
-class RecordsFragment : Fragment(), RecordAdapter.OnClick {
+class RecordsFragment : Fragment(), RecordAdapter.OnClick, ClientTextAdapter.ClickClient {
 
     private val binding: FragmentRecordsBinding by lazy {
         FragmentRecordsBinding.inflate(
@@ -45,6 +55,11 @@ class RecordsFragment : Fragment(), RecordAdapter.OnClick {
     }
     private val storageRef = FirebaseStorage.getInstance().reference
     private val viewModel: RecordsViewModel by viewModels()
+    private val format = SimpleDateFormat("dd/MM/yyyy")
+    private val formatTime = SimpleDateFormat("HH:mm")
+    private var time = ""
+    private var date = ""
+    private lateinit var dialogListClients: Dialog
 
     override fun click(data: Record, position: Int) {
         val disp = App.dm.api.deleteRecord(data)
@@ -56,6 +71,11 @@ class RecordsFragment : Fragment(), RecordAdapter.OnClick {
                 viewModel.trueList.remove(data)
                 binding.rvRecords.adapter!!.notifyItemRemoved(position)
             })
+    }
+
+    override fun clickClient() {
+        viewModel.makeRecord(time, date, requireContext())
+        dialogListClients.cancel()
     }
 
     override fun onCreateView(
@@ -75,8 +95,33 @@ class RecordsFragment : Fragment(), RecordAdapter.OnClick {
 
     private fun applyClick() {
         with(binding) {
-            createDesignButton.setOnClickListener {
+            setPriceBtn.setOnClickListener {
                 findNavController().navigate(R.id.action_recordsFragment_to_pricingFragment)
+            }
+            makeRecordBtn.setOnClickListener {
+                val dialogBinding: InputDateDialogViewBinding by lazy {
+                    InputDateDialogViewBinding.inflate(
+                        layoutInflater
+                    )
+                }
+                Dialog(requireContext()).apply {
+                    setContentView(dialogBinding.root)
+                    window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                    dialogBinding.okBtn.setOnClickListener {
+                        if (checkDateInput(
+                                dialogBinding.timeTxt.text.toString(),
+                                dialogBinding.dateTxt.text.toString()
+                            )
+                        ) {
+                            time = dialogBinding.timeTxt.text.toString()
+                            date = dialogBinding.dateTxt.text.toString()
+                            showDialogClients()
+                        }
+
+                        this.cancel()
+                    }
+                }.show()
             }
             addDesignButton.setOnClickListener {
                 val dialogBinding: PriceDialogBinding by lazy {
@@ -124,7 +169,8 @@ class RecordsFragment : Fragment(), RecordAdapter.OnClick {
             delay(400)
             binding.rvRecords.adapter = RecordAdapter(
                 requireActivity(),
-                viewModel.trueList, this@RecordsFragment)
+                viewModel.trueList, this@RecordsFragment
+            )
         }
     }
 
@@ -161,5 +207,56 @@ class RecordsFragment : Fragment(), RecordAdapter.OnClick {
             if (it)
                 setAdapter()
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun checkDateInput(timeOld: String, dateOld: String): Boolean {
+        val date: Date
+        val time: Date
+        return try {
+            date = format.parse(dateOld)!!
+            time = formatTime.parse(timeOld)!!
+            if (time.hours > 18 || time.hours < 8 || date.month>12 || date.month<=0 || date.day > 31 || date.day <=0) {
+                Toast.makeText(
+                    activity,
+                    getString(R.string._8_00_19_00),
+                    Toast.LENGTH_LONG
+                ).show()
+                return false
+            }
+            if (date.after(Date())) true
+            else {
+                Toast.makeText(
+                    activity,
+                    getString(R.string._1),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return false
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            Toast.makeText(
+                activity,
+                getString(R.string.enter_date_format),
+                Toast.LENGTH_LONG
+            ).show()
+            false
+        }
+    }
+
+    private fun showDialogClients() {
+        val dialogBinding: ListClientsDialogBinding by lazy {
+            ListClientsDialogBinding.inflate(
+                layoutInflater
+            )
+        }
+        dialogListClients = Dialog(requireContext()).apply {
+            setContentView(dialogBinding.root)
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.rvClients.layoutManager = LinearLayoutManager(requireContext())
+            dialogBinding.rvClients.adapter =
+                ClientTextAdapter(requireContext(), Case.listClients, this@RecordsFragment)
+        }
+        dialogListClients.show()
     }
 }

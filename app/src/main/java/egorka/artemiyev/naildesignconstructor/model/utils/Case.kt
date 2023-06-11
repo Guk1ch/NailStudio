@@ -19,4 +19,5 @@ object Case {
         Pair(NailForm.ELLIPSE, NailLength.SHORT) to R.drawable.short_second_elepse,
         Pair(NailForm.ELLIPSE, NailLength.MIDDLE) to R.drawable.second_middle_elepse
     )
+    var clientToRecord = SqlClient("skgjhdkfjg", 0, "999999999", listOf(), "")
 }

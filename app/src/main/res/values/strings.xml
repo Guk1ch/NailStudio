@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NailConstructor</string>
+    <string name="app_name">NailDesignApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registration">Регистрация</string>
@@ -42,7 +42,7 @@
     <string name="choose_form">Выбрать форму</string>
     <string name="choose_length">Выбрать длину</string>
     <string name="close">Закрыть</string>
-    <string name="form">Форма</string>
+    <string name="form">Маникюр</string>
     <string name="no_connection">Нет интернета</string>
     <string name="designprice">designPrice</string>
     <string name="nailprice">nailPrice</string>
@@ -71,6 +71,9 @@
     <string name="enter_time">Введите дату и время</string>
     <string name="_1">Запись должна быть сделана минимум за 1 день</string>
     <string name="enter_date_format">Дата или время имеет неверный формат</string>
-    <string name="_8_00_19_00">Время не может быть меньше 8:00 или больше 19:00</string>
+    <string name="_8_00_19_00">Дата или время указаны некорректно</string>
     <string name="success">Успешно!</string>
+    <string name="create_record">Создать запись</string>
+    <string name="color_picture">Цвет рисунка</string>
+    <string name="choose_color_picture">Выберите цвет рисунка</string>
 </resources>

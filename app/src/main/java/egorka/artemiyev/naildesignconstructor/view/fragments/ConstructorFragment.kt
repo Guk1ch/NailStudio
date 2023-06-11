@@ -49,6 +49,7 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
 
     private var nailForm = NailForm.KNIFE
     private var nailLength = NailLength.LONG
+    private var tint = "#00FFE228"
 
     private val binding: FragmentConstructorBinding by lazy {
         FragmentConstructorBinding.inflate(
@@ -72,6 +73,9 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
 
     private fun applyClick() {
         with(binding) {
+            pictureColorButton.setOnClickListener {
+                setPictureTint()
+            }
             arrowBack.setOnClickListener { findNavController().popBackStack() }
             chooseFormButton.setOnClickListener {
                 showDialogChooseForm(requireContext().getString(R.string.choose_form))
@@ -91,7 +95,7 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
 
             saveButton.setOnClickListener {
                 val list = App.dm.getListMy()
-                list.add(MyDesign(vpList[vpNails.currentItem].image, formNail, imageTint))
+                list.add(MyDesign(vpList[vpNails.currentItem].image, formNail, imageTint, tint))
                 App.dm.addListMy(Gson().toJson(list))
                 findNavController().popBackStack()
             }
@@ -147,17 +151,17 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 vpList = it
-                binding.vpNails.adapter = NailImageAdapter(requireContext(), vpList)
+                binding.vpNails.adapter = NailImageAdapter(requireContext(), vpList, tint)
             }, {
-                binding.vpNails.adapter = NailImageAdapter(requireContext(), NailImage())
+                binding.vpNails.adapter = NailImageAdapter(requireContext(), NailImage(), tint)
             })
     }
 
     private fun showDialogChooseForm(title: String) {
         val singleItems = arrayOf(
             "Миндаль",
-            "Прямоугольник",
-            "Эллипс",
+            "Квадрат",
+            "Овал",
             "Балерина",
             "Стилет"
         )
@@ -222,5 +226,35 @@ class ConstructorFragment : Fragment(), ColorAdapter.ColorClick {
         else {
             Toast.makeText(requireContext(), getString(R.string.form_is_not_exist), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun setPictureTint(){
+        val singleItems = arrayOf("Белый", "Прозрачный", "Чёрный")
+        val checkedItem = when (tint) {
+            "#000000" -> 2
+            "#00FFE228" -> 1
+            else -> 0
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.choose_color_picture))
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                dialog.cancel()
+            }
+            .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+                tint = when (which) {
+                    0 -> "#FFFFFF"
+                    1 -> "#00FFE228"
+                    else -> "#000000"
+                }
+                setTint()
+                dialog.cancel()
+            }
+            .show()
+    }
+    private fun setTint(){
+        val currentItem = binding.vpNails.currentItem
+        binding.vpNails.adapter = NailImageAdapter(requireContext(), vpList, tint)
+        binding.vpNails.currentItem = currentItem
     }
 }

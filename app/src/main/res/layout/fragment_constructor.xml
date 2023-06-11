@@ -48,12 +48,38 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button_back"
         app:cardCornerRadius="16dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline19"
+        app:layout_constraintTop_toTopOf="@+id/guideline18"
+        app:strokeColor="@color/purple_main">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:text="@string/save"
+            android:textColor="@color/purple_main"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/pictureColorButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/button_back"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline18"
         app:strokeColor="@color/purple_main">
@@ -63,8 +89,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="12dp"
-            android:paddingHorizontal="96dp"
-            android:text="@string/save"
+            android:text="@string/color_picture"
             android:textColor="@color/purple_main"
             android:textSize="16sp"
             android:textStyle="bold" />

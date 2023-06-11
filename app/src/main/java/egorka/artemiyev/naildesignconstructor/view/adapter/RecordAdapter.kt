@@ -24,6 +24,7 @@ class RecordAdapter(val context: Context, val list: List<Record>, private val on
             nameTxt.text = item.idClientNavigation!!.fullName
             dateTxt.text = item.date
             timeTxt.text = item.time
+            phoneTxt.text = item.idClientNavigation!!.phone
             root.setOnLongClickListener {
                 val dialog = MaterialDialog(context as MainActivity)
                     .title(text = context.getString(R.string.end_record))
